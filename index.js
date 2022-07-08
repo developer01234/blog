@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { registerValidator } from "./validations/auth.js";
 import { validationResult } from "express-validator";
 import UserModel from "./models/user.js";
+import checkAuth from "./utils/checkAuth.js";
 import bcrypt from "bcrypt";
 
 mongoose
@@ -79,6 +80,16 @@ app.post("/auth/register", registerValidator, async (req, res) => {
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({ message: "Failed registration" });
+	}
+});
+
+app.get("/auth/me", checkAuth, (req, res) => {
+	try {
+		res.json({
+			success: true
+		})
+	} catch (err) {
+		console.log(err);
 	}
 });
 
