@@ -37,9 +37,15 @@ app.post("/auth/login", async (req, res) => {
 			});
 		}
 
-		const token = jwt.sign({ _id: user._id }, "top-secret", {
+		const token = jwt.sign(
+			{ 
+				_id: user._id 
+			},
+			"top-secret", 
+			{
 			expiresIn: "30d",
-		});
+			}
+		);
 
 		const { passwordHash, ...userData } = user._doc;
 
@@ -93,7 +99,7 @@ app.get("/auth/me", checkAuth, (req, res) => {
 	}
 });
 
-app.listen(5000, (err) => {
+app.listen(process.env.PORT || 5000, (err) => {
 	if (err) {
 		return console.log("Server Kill!", err);
 	}
